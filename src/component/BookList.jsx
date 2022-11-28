@@ -17,7 +17,7 @@ class BookList extends Component {
     return (
       <Container>
         <InputGroup
-          className="my-3 ml-4"
+          className="my-3 ml-1 search-input rounded"
           onChange={(e) => this.filterBookList(e.target.value)}
         >
           <Form.Control
@@ -33,7 +33,10 @@ class BookList extends Component {
             .map((book) => {
               return (
                 <Col sm={6} md={4} lg={3} my={3} key={book.asin}>
-                  <SingleBook book={book} />
+                  <SingleBook
+                    book={book}
+                    handleChangeOfState={this.props.handleChangeOfState}
+                  />
                 </Col>
               )
             })}

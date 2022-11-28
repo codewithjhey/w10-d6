@@ -4,7 +4,7 @@ import { Form, Button } from "react-bootstrap"
 class AddComments extends Component {
   state = {
     comment: "",
-    rate: 1,
+    rate: "1",
     elementId: ""
   }
 
@@ -26,7 +26,7 @@ class AddComments extends Component {
           headers: {
             "Content-Type": "application/json",
             Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzdmNmI5ZGQ4MzkzNTAwMTVlOGM0YWQiLCJpYXQiOjE2NjkyOTUwMDUsImV4cCI6MTY3MDUwNDYwNX0.ldU_NzLILQGw9ON-Dqwr_ijMy_HY92g_qu_TICsCaco"
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Mzg0YzcwM2Q4MDNjMjAwMTVlY2VlMzEiLCJpYXQiOjE2Njk2NDk2MzMsImV4cCI6MTY3MDg1OTIzM30.YcT8mz69Vnd8RUxkROJEBIe1hh-HsuM2usty8yW8fpg"
           }
         }
       )
@@ -46,8 +46,9 @@ class AddComments extends Component {
     }
   }
 
-  componentDidMount() {
-    this.setState({ elementId: this.props.elementId })
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.elementId !== this.props.elementId)
+      this.setState({ elementId: this.props.elementId })
   }
 
   render() {

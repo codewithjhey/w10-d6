@@ -40,3 +40,23 @@
 .custom-badge {
   margin-inline: 50%;
 }
+
+.selected {
+  box-shadow: 2px 7px 10px 11px magenta;
+}
+
+.book-card-img {
+  height: 250px;
+}
+
+.add-comment {
+  width: 100%;
+  margin-block: 5px;
+  font-size: 0.8em;
+  min-height: 50px;
+}
+
+.search-input {
+  width: 280px !important;
+  border-radius: 20px;
+}

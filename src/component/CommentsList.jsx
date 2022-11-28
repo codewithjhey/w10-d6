@@ -1,12 +1,12 @@
 import { Component } from "react"
-import { ListGroup, Spinner } from "react-bootstrap"
+import { ListGroup } from "react-bootstrap"
 
 class CommentsList extends Component {
   state = {
     comments: []
   }
 
-  fetchComments = async () => {
+  fetchBookComments = async () => {
     try {
       let response = await fetch(
         "https://striveschool-api.herokuapp.com/api/comments/" +
@@ -14,14 +14,14 @@ class CommentsList extends Component {
         {
           headers: {
             Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzdmNmI5ZGQ4MzkzNTAwMTVlOGM0YWQiLCJpYXQiOjE2NjkyOTUwMDUsImV4cCI6MTY3MDUwNDYwNX0.ldU_NzLILQGw9ON-Dqwr_ijMy_HY92g_qu_TICsCaco"
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Mzg0YzcwM2Q4MDNjMjAwMTVlY2VlMzEiLCJpYXQiOjE2Njk2NDk2MzMsImV4cCI6MTY3MDg1OTIzM30.YcT8mz69Vnd8RUxkROJEBIe1hh-HsuM2usty8yW8fpg"
           }
         }
       )
       if (response.ok) {
         let data = await response.json()
         let myFeedbackArray = data.filter((comment) =>
-          comment.author.includes("ayo")
+          comment.author.includes("victor")
         )
         this.setState({ comments: myFeedbackArray })
       } else {
@@ -41,8 +41,15 @@ class CommentsList extends Component {
     }
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.elementId !== this.props.elementId) {
+      console.log("ID has been Updated")
+      this.fetchBookComments()
+    }
+  }
+
   componentDidMount() {
-    this.fetchComments()
+    this.fetchBookComments()
   }
 
   commentDelete = async (commentId) => {
@@ -53,7 +60,7 @@ class CommentsList extends Component {
           method: "DELETE",
           headers: {
             Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzdmNmI5ZGQ4MzkzNTAwMTVlOGM0YWQiLCJpYXQiOjE2NjkyOTUwMDUsImV4cCI6MTY3MDUwNDYwNX0.ldU_NzLILQGw9ON-Dqwr_ijMy_HY92g_qu_TICsCaco"
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Mzg0YzcwM2Q4MDNjMjAwMTVlY2VlMzEiLCJpYXQiOjE2Njk2NDk2MzMsImV4cCI6MTY3MDg1OTIzM30.YcT8mz69Vnd8RUxkROJEBIe1hh-HsuM2usty8yW8fpg"
           }
         }
       )
@@ -77,13 +84,14 @@ class CommentsList extends Component {
             <span className="sr-only">Loading...</span>
           </Spinner>
         )} */}
+        <h5 className="my-3">Posted Feedbacks</h5>
         <ListGroup className="mt-4">
-          {this.state.comments.map((r) => (
+          {this.state.comments.map((c) => (
             <ListGroup.Item
-              key={r._id}
-              onClick={() => this.deleteComment(r._id)}
+              key={c._id}
+              onClick={() => this.deleteComment(c._id)}
             >
-              {r.rate} rating out of 5 - {r.comment}
+              {c.comment} - Rated {c.rate} out of 5
             </ListGroup.Item>
           ))}
         </ListGroup>
