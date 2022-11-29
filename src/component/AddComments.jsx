@@ -1,21 +1,19 @@
-import { Component } from "react"
+import { useState, useEffect } from "react"
 import { Form, Button } from "react-bootstrap"
 
-class AddComments extends Component {
-  state = {
-    comment: "",
-    rate: "1",
-    elementId: ""
+const AddComments = () => {
+  const [comment, setComments] = useState("")
+  // state = {
+  //   comment: "",
+  //   rate: "1",
+  //   elementId: ""
+  // }
+
+  const onChangeHandler = (value, fieldToSet) => {
+    setComments({ ...comment, [fieldToSet]: value })
   }
 
-  onChangeHandler = (value, fieldToSet) => {
-    this.setState({
-      ...this.state.feedback, // this creates a copy of feedback!
-      [fieldToSet]: value
-    })
-  }
-
-  onSubmitHandler = async (e) => {
+  const onSubmitHandler = async (e) => {
     e.preventDefault()
     try {
       let response = await fetch(
@@ -33,7 +31,7 @@ class AddComments extends Component {
       console.log(response)
       if (response.ok) {
         alert("Feedback saved!")
-        this.setState({
+        setComments({
           comment: "",
           rate: 1,
           elementId: ""
@@ -46,49 +44,52 @@ class AddComments extends Component {
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.elementId !== this.props.elementId)
-      this.setState({ elementId: this.props.elementId })
-  }
+  // componentDidUpdate(prevProps, prevState) {
+  //   if (prevProps.elementId !== this.props.elementId)
+  //     this.setState({ elementId: this.props.elementId })
+  // }
 
-  render() {
-    return (
-      <div>
-        <Form onSubmit={this.onSubmitHandler}>
-          <Form.Group>
-            <Form.Label>Comment?</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter Comment"
-              required
-              value={this.state.comment}
-              onChange={(e) => this.onChangeHandler(e.target.value, "comment")}
-            />
-          </Form.Group>
+  useEffect(() => {
+    setComments({ ...comment, [comment.elementId]: comment.elementId })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [comment.elementId])
 
-          <Form.Group>
-            <Form.Label>Rating?</Form.Label>
-            <Form.Control
-              as="select"
-              required
-              value={this.state.rate}
-              onChange={(e) => this.onChangeHandler(e.target.value, "rate")}
-            >
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-            </Form.Control>
-          </Form.Group>
+  return (
+    <div>
+      <Form onSubmit={onSubmitHandler}>
+        <Form.Group>
+          <Form.Label>Comment?</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Enter Comment"
+            required
+            value={comment.comment}
+            onChange={(e) => onChangeHandler(e.target.value, "comment")}
+          />
+        </Form.Group>
 
-          <Button variant="primary" type="submit">
-            Send Feedback
-          </Button>
-        </Form>
-      </div>
-    )
-  }
+        <Form.Group>
+          <Form.Label>Rating?</Form.Label>
+          <Form.Control
+            as="select"
+            required
+            value={comment.rate}
+            onChange={(e) => onChangeHandler(e.target.value, "rate")}
+          >
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+          </Form.Control>
+        </Form.Group>
+
+        <Button variant="primary" type="submit">
+          Send Feedback
+        </Button>
+      </Form>
+    </div>
+  )
 }
 
 export default AddComments

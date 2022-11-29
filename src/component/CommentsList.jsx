@@ -1,16 +1,13 @@
-import { Component } from "react"
+import { useEffect, useState } from "react"
 import { ListGroup } from "react-bootstrap"
 
-class CommentsList extends Component {
-  state = {
-    comments: []
-  }
+const CommentsList = ({ elementId }) => {
+  const [comments, setComments] = useState([])
 
-  fetchBookComments = async () => {
+  const fetchBookComments = async () => {
     try {
       let response = await fetch(
-        "https://striveschool-api.herokuapp.com/api/comments/" +
-          this.props.elementId,
+        "https://striveschool-api.herokuapp.com/api/comments/" + elementId,
         {
           headers: {
             Authorization:
@@ -23,36 +20,44 @@ class CommentsList extends Component {
         let myFeedbackArray = data.filter((comment) =>
           comment.author.includes("victor")
         )
-        this.setState({ comments: myFeedbackArray })
+        setComments({ comments: myFeedbackArray })
       } else {
         console.log("error fetching the comments :(")
 
-        setTimeout(() => {
-          this.setState({
-            isLoading: false
-          })
-        }, 1000)
+        // setTimeout(() => {
+        //   this.setState({
+        //     isLoading: false
+        //   })
+        // }, 1000)
       }
     } catch (error) {
       console.log(error)
-      this.setState({
-        isLoading: false
-      })
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.elementId !== this.props.elementId) {
-      console.log("ID has been Updated")
-      this.fetchBookComments()
-    }
-  }
+  // componentDidUpdate(prevProps, prevState) {
+  //   if (prevProps.elementId !== this.props.elementId) {
+  //     console.log("ID has been Updated")
+  //     this.fetchBookComments()
+  //   }
+  // }
 
-  componentDidMount() {
-    this.fetchBookComments()
-  }
+  useEffect(() => {
+    console.log("ID has been Updated")
+    fetchBookComments()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [elementId])
 
-  commentDelete = async (commentId) => {
+  // componentDidMount() {
+  //   this.fetchBookComments()
+  // }
+
+  useEffect(() => {
+    fetchBookComments()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const commentDelete = async (commentId) => {
     try {
       let response = await fetch(
         "https://striveschool-api.herokuapp.com/api/comments/" + commentId,
@@ -72,10 +77,9 @@ class CommentsList extends Component {
     }
   }
 
-  render() {
-    return (
-      <div>
-        {/* {this.state.isLoading && (
+  return (
+    <div>
+      {/* {this.state.isLoading && (
           <Spinner
             animation="border"
             role="status"
@@ -84,20 +88,16 @@ class CommentsList extends Component {
             <span className="sr-only">Loading...</span>
           </Spinner>
         )} */}
-        <h5 className="my-3">Posted Feedbacks</h5>
-        <ListGroup className="mt-4">
-          {this.state.comments.map((c) => (
-            <ListGroup.Item
-              key={c._id}
-              onClick={() => this.deleteComment(c._id)}
-            >
-              {c.comment} - Rated {c.rate} out of 5
-            </ListGroup.Item>
-          ))}
-        </ListGroup>
-      </div>
-    )
-  }
+      <h5 className="my-3">Posted Feedbacks</h5>
+      <ListGroup className="mt-4">
+        {comments.map((c) => (
+          <ListGroup.Item key={c._id} onClick={() => commentDelete(c._id)}>
+            {c.comment} - Rated {c.rate} out of 5
+          </ListGroup.Item>
+        ))}
+      </ListGroup>
+    </div>
+  )
 }
 
 export default CommentsList
