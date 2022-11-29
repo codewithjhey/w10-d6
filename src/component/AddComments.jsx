@@ -1,16 +1,15 @@
 import { useState, useEffect } from "react"
 import { Form, Button } from "react-bootstrap"
 
-const AddComments = () => {
-  const [comment, setComments] = useState("")
-  // state = {
-  //   comment: "",
-  //   rate: "1",
-  //   elementId: ""
-  // }
+const AddComments = ({ elementId }) => {
+  const [comment, setComment] = useState({
+    comment: "",
+    rate: "1",
+    elementId: ""
+  })
 
   const onChangeHandler = (value, fieldToSet) => {
-    setComments({ ...comment, [fieldToSet]: value })
+    setComment({ ...comment, [fieldToSet]: value })
   }
 
   const onSubmitHandler = async (e) => {
@@ -20,7 +19,8 @@ const AddComments = () => {
         "https://striveschool-api.herokuapp.com/api/comments",
         {
           method: "POST",
-          body: JSON.stringify(this.state),
+          body: JSON.stringify(comment),
+
           headers: {
             "Content-Type": "application/json",
             Authorization:
@@ -31,9 +31,9 @@ const AddComments = () => {
       console.log(response)
       if (response.ok) {
         alert("Feedback saved!")
-        setComments({
+        setComment({
           comment: "",
-          rate: 1,
+          rate: "1",
           elementId: ""
         })
       } else {
@@ -50,9 +50,9 @@ const AddComments = () => {
   // }
 
   useEffect(() => {
-    setComments({ ...comment, [comment.elementId]: comment.elementId })
+    setComment({ ...comment, elementId: elementId })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [comment.elementId])
+  }, [elementId])
 
   return (
     <div>

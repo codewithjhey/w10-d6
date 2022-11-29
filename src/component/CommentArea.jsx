@@ -5,7 +5,7 @@ const CommentArea = ({ elementId }) => {
   return (
     <div>
       <AddComments elementId={elementId} />
-      <CommentsList elementId={elementId} />
+      {/* <CommentsList elementId={elementId} /> */}
     </div>
   )
 }
