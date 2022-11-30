@@ -58,7 +58,7 @@ const AddComments = ({ elementId }) => {
     <div>
       <Form onSubmit={onSubmitHandler}>
         <Form.Group>
-          <Form.Label>Comment?</Form.Label>
+          <Form.Label> Review a Book </Form.Label>
           <Form.Control
             type="text"
             placeholder="Enter Comment"
@@ -69,7 +69,7 @@ const AddComments = ({ elementId }) => {
         </Form.Group>
 
         <Form.Group>
-          <Form.Label>Rating?</Form.Label>
+          <Form.Label> Give Rating</Form.Label>
           <Form.Control
             as="select"
             required

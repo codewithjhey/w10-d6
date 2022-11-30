@@ -42,11 +42,14 @@
 }
 
 .selected {
-  box-shadow: 2px 7px 10px 11px magenta;
+  box-shadow: 3px 3px 3px 2px magenta;
 }
 
 .book-card-img {
-  height: 250px;
+  width: 140px;
+  height: 200px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .add-comment {
@@ -57,6 +60,15 @@
 }
 
 .search-input {
-  width: 280px !important;
+  width: 375px !important;
   border-radius: 20px;
+}
+
+.card {
+  margin-bottom: 20px !important;
+}
+
+#root {
+  background-color: #282c34;
+  color: red;
 }

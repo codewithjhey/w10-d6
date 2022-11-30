@@ -20,7 +20,7 @@ const CommentsList = ({ elementId }) => {
         let myFeedbackArray = data.filter((comment) =>
           comment.author.includes("victor")
         )
-        setComments({ comments: myFeedbackArray })
+        setComments(myFeedbackArray)
       } else {
         console.log("error fetching the comments :(")
 

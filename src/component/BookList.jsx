@@ -22,7 +22,7 @@ const BookList = ({ books, handleChangeOfState }) => {
         />
       </InputGroup>
 
-      <Row>
+      <Row mb={3}>
         {books
           .filter((book) => book.title.includes(filter))
           .map((book) => {

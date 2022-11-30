@@ -31,9 +31,9 @@ const SingleBook = ({ book, handleChangeOfState }) => {
         }}
       >
         <Card.Img className={"book-card-img"} src={book.img} />
-        <Card.Body>
+        {/* <Card.Body>
           <Card.Title>{book.title}</Card.Title>
-        </Card.Body>
+        </Card.Body> */}
       </Card>
     </>
   )
